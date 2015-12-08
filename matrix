@@ -1,15 +1,20 @@
 class Matrix:
 
-    A = None
-    str = None
-    stolb = None
-
-    def __init__(self, str, stolb=None):
-        if str <= 0 or stolb <= 0 or type(str) != int or type(stolb) != int:
-            raise Exception(ValueError)
-        self.A = [[0]*stolb for i in range(str)]
-        self.str = str
-        self.stolb = stolb
+    def __init__(self,m,n=None):
+        if n is None:
+            if len(m)==0 or len(m[0])==0:
+                raise ValueError()
+            self.str=len(m)
+            self.stolb=len(m[0])
+            self.A=m
+        elif type(n)==int and type(m)==int:
+            if n<=0 or m<=0:
+                raise ValueError()
+            self.str=m
+            self.stolb=n
+            self.A=[[0]*n for i in range(m)]
+        else:
+            raise ValueError()
 
 
     def __add__(self,other):
@@ -66,7 +71,7 @@ class Matrix:
 
     def get_size(self):
         return self.str, self.stolb
-    
+
 
 
     def __sub__(self,other):
@@ -77,3 +82,11 @@ class Matrix:
             for j in range(self.stolb):
                 B[i][j]=self.A[i][j]-other.A[i][j]
         return Matrix(B)
+
+
+    def set(self,i,j,A):
+        if i>self.str or j>self.stolb or i<0 or j<0:
+            raise ValueError()
+        if type(A)!=int:
+            raise ValueError()
+        self.A[i][j]=A
