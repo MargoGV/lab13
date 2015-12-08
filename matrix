@@ -1,0 +1,79 @@
+class Matrix:
+
+    A = None
+    str = None
+    stolb = None
+
+    def __init__(self, str, stolb=None):
+        if str <= 0 or stolb <= 0 or type(str) != int or type(stolb) != int:
+            raise Exception(ValueError)
+        self.A = [[0]*stolb for i in range(str)]
+        self.str = str
+        self.stolb = stolb
+
+
+    def __add__(self,other):
+        if self.stolb!=other.stolb or self.str!=other.str:
+            raise ValueError()
+        B=[[0]*self.stolb for i in range(self.str)]
+        for i in range(self.str):
+            for j in range(self.stolb):
+                B[i][j]=self.A[i][j]+other.A[i][j]
+        return Matrix(B)
+
+
+    def determinant(self):
+        if self.str == self.stolb:
+            if self.stolb == 1:
+                return self.A[1][1]
+            elif self.stolb == 2:
+                return self.A[1][1]*self.A[2][2] - self.A[1][2]*self.A[2][1]
+            elif self.stolb == 3:
+                return self.A[1][1]*self.A[2][2]*self.A[3][3] + self.A[1][2]*self.A[2][3]*self.A[3][1] + self.A[1][3]*self.A[2][1]*self.A[3][2] - self.A[1][3]*self.A[2][2]*self.A[3][1] - self.A[1][2]*self.A[2][1]*self.A[3][3] - self.A[1][1]*self.A[2][3]*self.A[3][2]
+            else:
+                print('Слишком большая матрица')
+        else:
+            print('Матрица не квадратная')
+
+
+
+    def __eq__(self, other):
+        if self.stolb!=other.stolb or self.str!=other.str:
+            print(self.A,self.str,self.stolb,other.A,other.str,other.stolb)
+            raise RuntimeError()
+        else:
+            for i in range(self.str):
+                for j in range(self.stolb):
+                    if self.A[i][j]!=other.A[i][j]:
+                        return False
+            return True
+
+
+    def get(self, i, j):
+        if i <= self.str and j <= self.stolb:
+            raise Exception(ValueError)
+        else:
+            return self.A[i][j]
+
+
+    def get_m(self):
+        return self.str
+
+
+    def get_n(self):
+        return self.stolb
+
+
+    def get_size(self):
+        return self.str, self.stolb
+    
+
+
+    def __sub__(self,other):
+        if self.stolb!=other.stolb or self.str!=other.str:
+            raise ValueError()
+        B=[[0]*self.stolb for i in range(self.str)]
+        for i in range(self.str):
+            for j in range(self.stolb):
+                B[i][j]=self.A[i][j]-other.A[i][j]
+        return Matrix(B)
